@@ -8,7 +8,7 @@
 	<name>SparkSql_Springx</name>
 	<url>http://maven.apache.org</url>
 	<properties>
-		<!-- spring版本号rymppp -->
+		<!-- spring版本号dudu -->
 		<spring.version>4.0.2.RELEASE</spring.version>
 		<!-- mybatis版本号 -->
 		<mybatis.version>3.2.6</mybatis.version>

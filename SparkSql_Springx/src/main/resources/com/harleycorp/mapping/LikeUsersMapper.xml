@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.harleycorp.dao.LikeUsersMapper" >
+  <resultMap id="BaseResultMap" type="com.harleycorp.pojo.LikeUsers" >
+    <id column="_id" property="id" jdbcType="INTEGER" />
+    <result column="slug" property="slug" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    _id, slug, time, userid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from like_users
+    where _id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--某用户首次关注的用户  -->
+  <select id="selectFirstGZYHByUserid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select * from like_users 
+    where userid = #{userid,jdbcType=INTEGER} 
+    ORDER BY time LIMIT 0,1
+  </select>   
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from like_users
+    where _id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.harleycorp.pojo.LikeUsers" >
+    insert into like_users (_id, slug, time, 
+      userid)
+    values (#{id,jdbcType=INTEGER}, #{slug,jdbcType=VARCHAR}, #{time,jdbcType=VARCHAR}, 
+      #{userid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.harleycorp.pojo.LikeUsers" >
+    insert into like_users
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        _id,
+      </if>
+      <if test="slug != null" >
+        slug,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="slug != null" >
+        #{slug,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.harleycorp.pojo.LikeUsers" >
+    update like_users
+    <set >
+      <if test="slug != null" >
+        slug = #{slug,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where _id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.harleycorp.pojo.LikeUsers" >
+    update like_users
+    set slug = #{slug,jdbcType=VARCHAR},
+      time = #{time,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=INTEGER}
+    where _id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.harleycorp.dao.LikeNotesMapper" >
+  <resultMap id="BaseResultMap" type="com.harleycorp.pojo.LikeNotes" >
+    <id column="_id" property="id" jdbcType="INTEGER" />
+    <result column="note_id" property="noteId" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="VARCHAR" />
+    <result column="slug" property="slug" jdbcType="VARCHAR" />
+    <result column="comment_text" property="commentText" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    _id, note_id, time, slug, comment_text, userid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from like_notes
+    where _id = #{id,jdbcType=INTEGER}
+  </select>
+ <!-- 喜欢文章数目 -->
+  <select id="selectLikeWZCountByuserid" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+    select count(*) from like_notes where userid = #{userid,jdbcType=INTEGER}
+  </select> 
+  <!--某用户喜欢的第一篇文章  -->
+  <select id="selectFirstLikeNoteByUserid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select * from like_notes 
+    where userid = #{userid,jdbcType=INTEGER} 
+    ORDER BY time LIMIT 0,1
+  </select>  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from like_notes
+    where _id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.harleycorp.pojo.LikeNotes" >
+    insert into like_notes (_id, note_id, time, 
+      slug, comment_text, userid
+      )
+    values (#{id,jdbcType=INTEGER}, #{noteId,jdbcType=VARCHAR}, #{time,jdbcType=VARCHAR}, 
+      #{slug,jdbcType=VARCHAR}, #{commentText,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.harleycorp.pojo.LikeNotes" >
+    insert into like_notes
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        _id,
+      </if>
+      <if test="noteId != null" >
+        note_id,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="slug != null" >
+        slug,
+      </if>
+      <if test="commentText != null" >
+        comment_text,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="noteId != null" >
+        #{noteId,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="slug != null" >
+        #{slug,jdbcType=VARCHAR},
+      </if>
+      <if test="commentText != null" >
+        #{commentText,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.harleycorp.pojo.LikeNotes" >
+    update like_notes
+    <set >
+      <if test="noteId != null" >
+        note_id = #{noteId,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="slug != null" >
+        slug = #{slug,jdbcType=VARCHAR},
+      </if>
+      <if test="commentText != null" >
+        comment_text = #{commentText,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where _id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.harleycorp.pojo.LikeNotes" >
+    update like_notes
+    set note_id = #{noteId,jdbcType=VARCHAR},
+      time = #{time,jdbcType=VARCHAR},
+      slug = #{slug,jdbcType=VARCHAR},
+      comment_text = #{commentText,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=INTEGER}
+    where _id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
